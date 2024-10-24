@@ -1,6 +1,8 @@
 const express = require("express");
 const optionsController = require("../controllers/optionsController");
 const optionsValidation = require("../middlewares/optionsValidation");
+const { authorization } = require("../middlewares/auth");
+const { adminRole } = require("../constant/auth");
 
 const router = express.Router();
 
@@ -9,6 +11,7 @@ router
   .get(optionsValidation.validateGetOptions, optionsController.getOptions)
   .post(
     optionsValidation.validateCreateOptions,
+    authorization(adminRole),
     optionsController.createOptions
   );
 
@@ -18,9 +21,14 @@ router
     optionsValidation.validateGetOptionsById,
     optionsController.getOptionsById
   )
-  .put(optionsValidation.validateUpdateOptions, optionsController.updateOptions)
+  .put(
+    optionsValidation.validateUpdateOptions,
+    authorization(adminRole),
+    optionsController.updateOptions
+  )
   .delete(
     optionsValidation.validateDeleteOptionsById,
+    authorization(adminRole),
     optionsController.deleteOptionsById
   );
 

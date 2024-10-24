@@ -13,6 +13,8 @@ const {
   createSpec,
   updateSpec,
 } = require("../controllers/specsControllers");
+const { authorization } = require("../middlewares/auth");
+const { adminRole } = require("../constant/auth");
 
 const router = express.Router();
 
@@ -20,12 +22,12 @@ const router = express.Router();
 router
   .route("/")
   .get(validateGetSpecs, getSpecs)
-  .post(validateCreateSpec, createSpec);
+  .post(validateCreateSpec, authorization(adminRole), createSpec);
 
 router
   .route("/:id")
   .get(validateGetSpecById, getSpecById)
-  .put(validateUpdateSpec, updateSpec)
-  .delete(validateDeleteSpecById, deleteSpecById);
+  .put(validateUpdateSpec, authorization(adminRole), updateSpec)
+  .delete(validateDeleteSpecById, authorization(adminRole), deleteSpecById);
 
 module.exports = router;

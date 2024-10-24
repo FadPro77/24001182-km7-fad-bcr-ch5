@@ -13,18 +13,28 @@ const {
   createModelOptions,
   updateModelOptions,
 } = require("../controllers/modelOptionsController");
+const { authorization } = require("../middlewares/auth");
+const { adminRole } = require("../constant/auth");
 
 const router = express.Router();
 
 router
   .route("/")
   .get(validateGetModelOptions, getModelOptions)
-  .post(validateCreateModelOptions, createModelOptions);
+  .post(
+    validateCreateModelOptions,
+    authorization(adminRole),
+    createModelOptions
+  );
 
 router
   .route("/:id")
   .get(validateGetModelOptionsById, getModelOptionsById)
-  .put(validateUpdateModelOptions, updateModelOptions)
-  .delete(validateDeleteModelOptionsById, deleteModelOptionsById);
+  .put(validateUpdateModelOptions, authorization(adminRole), updateModelOptions)
+  .delete(
+    validateDeleteModelOptionsById,
+    authorization(adminRole),
+    deleteModelOptionsById
+  );
 
 module.exports = router;
