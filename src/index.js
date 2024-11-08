@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 require("express-async-errors");
 const fileUpload = require("express-fileupload");
+const cors = require("cors");
 const router = require("./routes");
 const {
   notFoundURLHandler,
@@ -9,7 +10,9 @@ const {
 } = require("./middlewares/errorhandler");
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 4001;
+
+app.use(cors());
 
 app.use(express.json());
 app.use(fileUpload());
