@@ -112,10 +112,18 @@ exports.getCars = async (
     });
   }
   if (available_At) {
+    const availableAtDate = new Date(available_At); // Parse input string to Date object
+    const threeDaysLater = new Date(availableAtDate);
+    threeDaysLater.setDate(availableAtDate.getDate() + 3); // Add 3 days to the provided date
+
     andQuery.push({
-      available_At: { contains: available_At, mode: "insensitive" },
+      availableAt: {
+        gte: availableAtDate, // Greater than or equal to the provided date
+        lte: threeDaysLater, // Less than or equal to 3 days after the provided date
+      },
     });
   }
+
   if (option_name) {
     andQuery.push({
       Models: {
