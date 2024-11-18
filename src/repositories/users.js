@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const JSONBigInt = require("json-bigint");
 const bcrypt = require("bcrypt");
+const axios = require("axios");
 
 const prisma = new PrismaClient();
 
@@ -66,4 +67,11 @@ exports.updateUserRole = async (userId, newRoleId) => {
 
   const serializedUser = JSONBigInt.stringify(updatedUser);
   return JSONBigInt.parse(serializedUser);
+};
+
+exports.googleLogin = async (accessToken) => {
+  const response = await axios.get(
+    `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`
+  );
+  return response?.data;
 };

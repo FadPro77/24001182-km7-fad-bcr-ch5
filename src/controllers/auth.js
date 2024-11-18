@@ -31,3 +31,8 @@ exports.changeUserRole = async (req, res) => {
     message: "User role updated successfully!",
   });
 };
+
+exports.googleLogin = async (req, res, next) => {
+  const data = await authService.googleLogin(req.body.access_token);
+  successResponse(res, data);
+};
