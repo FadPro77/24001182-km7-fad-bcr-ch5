@@ -78,7 +78,9 @@ exports.getCars = async (
   }
 
   if (capacity) {
-    andQuery.push({ Models: { capacity: Number(capacity) } });
+    andQuery.push({
+      Models: { capacity: { lte: Number(capacity) } },
+    });
   }
 
   if (transmission_name) {
@@ -107,7 +109,7 @@ exports.getCars = async (
   if (available_status) {
     andQuery.push({
       Available: {
-        available_status: { contains: available_status, mode: "insensitive" },
+        available_status: { equals: available_status, mode: "insensitive" },
       },
     });
   }
